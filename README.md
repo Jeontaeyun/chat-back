@@ -14,22 +14,22 @@
 
  ### (02) 프로젝트 아키텍쳐
 
- - Language : Node.js 
- - Server Framework : Express.js
- - Socket module : Socket.io
- - Solving CORS : cors.js
- - DataBase : MongoDB, Mongoose
- - Log : morgan
- - Session and Cookie : express-session, cookie-parser
+ - **Language** : Node.js 
+ - **Server Framework** : Express.js
+ - **Socket module** : Socket.io
+ - **Solving CORS** : cors.js
+ - **DataBase** : MongoDB, Mongoose
+ - **Log** : morgan
+ - **Session and Cookie** : express-session, cookie-parser
 
  ### (03) 프로젝트 리스트
 
- - [] 프로젝트 초기 설정 및 git 설정
- - [] 프로젝트 개발 리스트 작성 및 README.md 프로젝트 정리
- - [] 개발 환경 설정 및 기본 개념 습득
- - [] MongoDB를 이용한 프로젝트 데이터 모델링
- - [] API 구현하기
- - [] 웹 소켓을 이용한 채팅 구현하기
+ -[] 프로젝트 초기 설정 및 git 설정
+ -[] 프로젝트 개발 리스트 작성 및 README.md 프로젝트 정리
+ -[] 개발 환경 설정 및 기본 개념 습득
+ -[] MongoDB를 이용한 프로젝트 데이터 모델링
+ -[] API 구현하기
+ -[] 웹 소켓을 이용한 채팅 구현하기
 
  ## 02. 프로젝트 이론
 
