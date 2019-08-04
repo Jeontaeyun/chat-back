@@ -42,7 +42,58 @@
 
 - ``` $npm i socket.io ``` 를 통해 설치합니다.
 
+- socket.io의 기본 설정은 다음과 같습니다.
+
+```javascript
+
+/*Socket.io라이브러리에 대한 설정 파일입니다.*/
+
+const SocketIO = require('socket.io');
+
+module.exports = (server) => {
+    const io = SocketIO(server, {path:'/socket.io'});
+    // connection이 이루어지면 socket 을 반환하고 콜백을 수행한다.
+    io.on('connection',(socket) => {
+        // http의 요청은 socket객체에 저장되어 있다.
+        const req = socket.request;
+        // 사용자의 ip를 알아내는 주요한 방법입니다.
+        const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        console.log('새로운 클라이언트 접속!', ip, socket.id);
+        socket.on('disconnect', ()=> {
+            console.log('클라이언트 접속 해제',ip,socket.id);
+            clearInterval(socket.interval);
+        });
+        socket.on('error', (error)=> {
+            console.error(error);
+        });
+        socket.on('reply', (data) => {
+            console.log(data);
+        });
+        // socket객체의 interval에 해당 함수를 넣는다. 3초마다 new이벤트를 클라이언트 측으로 보내고 데이터는 "Hello Socket.IO" 입니다.
+        // setInterval(()=>{},000)는 변수 선언과 동시에 실행된다.
+        socket.interval = setInterval(() => {
+            socket.emit('news', 'Hello Socket.IO');
+        }, 3000);
+    });
+}
+
+```
 
  ## 03. 프로젝트 API 문서
 
  ## 04. 프로젝트 고찰 
+
+ ### (01) Dependencies 에러 처리하는 방법
+
+ 해당 프로젝트를 진행하면서 Socket.io를 설치했을 때 engine.io와 dependencies 에러가 발생하였다. 이 문제를 해결하기 위해 스택 오버플로우와 구글의 자료를 읽어 본 결과 프로젝트 시작부분에 이 문제가 발생했을 경우에 node_moudles과 package-lock.json을 모두 삭제한 후 npm i 키워드를 통해 모듈을 다시 전부 설치하는 것이 낫다는 결론을 얻었다.
+
+ ```bash
+
+$sudo rm -rf node_modules
+$sudo rm -rf package-lock.json
+$sudo npm i
+
+ ```
+
+ 이번 프로젝트에서는 패키지간의 의존도에 따른 에러를 어떻게 처리하는 가에 대해서 배웠다. 앞으로 해당 문제가 발생할 때 이 방법을 실행한 후 안된다면 다른 해결책을 찾아봐야겠다. 우선적으로는 이 방법이 가장 효과가 좋다.
+ 

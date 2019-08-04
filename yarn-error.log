@@ -1,0 +1,60 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.16.0/libexec/bin/yarn.js add axios cookie-parser express multer socket.io mongoose dotenv
+
+PATH: 
+  /Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Library/Frameworks/Python.framework/Versions/3.7/bin
+
+Yarn version: 
+  1.16.0
+
+Node version: 
+  12.6.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: EACCES: permission denied, mkdir '/Users/jeontaeyun/Desktop/Jeon Taeyun/Programmer Life/Project/Chatting App/chat-back/node_modules/aproba'
+
+npm manifest: 
+  {
+    "name": "chat-back",
+    "version": "1.0.0",
+    "description": "#node #express #chat #websocket",
+    "main": "index.js",
+    "dependencies": {
+      "axios": "^0.19.0",
+      "color-hash": "^1.0.3",
+      "connect-flash": "^0.1.1",
+      "cookie-parser": "^1.4.4",
+      "dotenv": "^8.0.0",
+      "express": "^4.17.1",
+      "express-session": "^1.16.2",
+      "mongoose": "^5.6.7",
+      "morgan": "^1.9.1",
+      "multer": "^1.4.2",
+      "nodemon": "^1.19.1",
+      "socket.io": "^2.2.0",
+      "ws": "^7.1.1"
+    },
+    "devDependencies": {},
+    "scripts": {
+      "dev": "nodemon"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/Jeontaeyun/chat-back.git"
+    },
+    "author": "Stark",
+    "license": "MIT",
+    "bugs": {
+      "url": "https://github.com/Jeontaeyun/chat-back/issues"
+    },
+    "homepage": "https://github.com/Jeontaeyun/chat-back#readme"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

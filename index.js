@@ -5,12 +5,14 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const flash = require('connect-flash');
 const dotenv = require('dotenv');
+const connect = require('./schemas');
 
-const webSocekt = require('./socket');
+const webSocket = require('./socket');
+dotenv.config();
 const {COOKIE_SECRET : cookieSecret, MONGO_URL : mongoURL} = process.env
 
-dotenv.config();
 const app = express();
+connect();
 
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -28,6 +30,7 @@ app.use(session({
 }));
 app.use(flash());
 
-app.listen(app.get('port'), () => {
-    console.log(app.get('port'),'번 포트에서 대기 중');
+const server = app.listen(8000,() => {
+    console.log('8000번 포트에서 대기 중');
 });
+webSocket(server);
