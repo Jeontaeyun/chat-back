@@ -4,19 +4,10 @@ const roomCtrl = require('./room.ctrl');
 const router = express.Router();
 
 router.get('/', (req, res, next) => {});
-
-router.post('/chat', async (req, res, next) => {
-	try {
-		const chat = {
-			user: 'stark',
-			chat: req.body.chat
-		};
-		req.app.get('io').of('/caht').emit('chat', chat);
-		res.send('ok');
-	} catch (e) {
-		console.error(e);
-		next(e);
-	}
-});
-
+router.get('/room', (req, res, next) => {});
+router.post('/room', (req, res, next) => {});
+router.get('/room/:id', (req, res, next) => {});
+router.delete('/room/:id', (req, res, next) => {});
+router.get('/room/:id/chat', (req, res, next) => {});
+router.post('/room/:id/chat', (req, res, next) => {});
 module.exports = router;

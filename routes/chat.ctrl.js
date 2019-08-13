@@ -15,3 +15,13 @@ exports.createChat = async (req, res, next) => {
 		next(e);
 	}
 };
+exports.renderChat = async (req, res, next) => {
+	try {
+		const chats = await Chat.find({ room: req.params.id }).sort('createdAt');
+		// res.render 과 res.JSON의 차이는 무엇일까?
+		return res.render('chat', { chats });
+	} catch (e) {
+		console.error(e);
+		next(e);
+	}
+};

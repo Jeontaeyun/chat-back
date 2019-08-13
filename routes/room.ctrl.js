@@ -11,7 +11,7 @@ exports.renderRooms = async (req, res, next) => {
 	}
 };
 
-exports.renderRoom = (req, res) => {
+exports.renderRoomTitle = (req, res) => {
 	res.render('room', { title: 'GIF 채팅방 생성' });
 };
 
@@ -24,8 +24,12 @@ exports.createRoom = async (req, res, next) => {
 			password: req.body.password
 		});
 		const newRoom = await room.save();
+		// 아래의 코드를 통해서 socket.io의 io객체를 사용할 수 있다.
 		const io = req.app.get('io');
+		// /room 네임 스페이스에 newRoom 이벤트를 전달하는 코드.
 		io.of('/room').emit('newRoom', newRoom);
+		// 방 주소에 room_id와 passwor가 같이 있는 것은 보안상 위험하지 않을까?
+		// 다른 방식으로 구성하도록 나중에 수정하자.
 		res.redirect(`/room/${newRoom._id}?password=${req.body.password}`);
 	} catch (e) {
 		console.log(e);
@@ -33,7 +37,7 @@ exports.createRoom = async (req, res, next) => {
 	}
 };
 
-exports.readRoom = async (req, res, next) => {
+exports.renderRoom = async (req, res, next) => {
 	try {
 		const room = await Room.findOne({ _id: req.params.id });
 		const io = req.app.get('io');
@@ -50,11 +54,9 @@ exports.readRoom = async (req, res, next) => {
 			req.flash('roomError', '허용 인원이 초과하였습니다.');
 			return res.redirect('/');
 		}
-		const chats = await Chat.find({ room: room._id }).sort('createdAt');
 		return res.render('chat', {
 			room,
 			title: room.title,
-			chats,
 			user: req.session
 		});
 	} catch (e) {
