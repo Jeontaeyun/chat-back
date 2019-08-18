@@ -90,6 +90,8 @@ module.exports = (server) => {
  채팅방 삭제 | DELETE | /room/:id
  특정 방 채팅 생성 | POST | /room/:id/chat
  특정 방 채팅 렌더링 | GET | /room/:id/chat 
+ 회원 가입 | POST | /user </br> {userId, userPassword, userNickname}
+ 로그인 | GET | /user </br> {}
 
 
  ## 04. 프로젝트 고찰 

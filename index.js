@@ -4,6 +4,10 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const flash = require('connect-flash');
 const dotenv = require('dotenv');
+const cors = require('cors');
+const passport = require('passport');
+const passportConfig = require('./passport');
+
 //schema에서 .env파일을 사용하므로 이 위에 먼저 .env 설정을 해주어야한다.
 dotenv.config();
 const connect = require('./schemas');
@@ -22,12 +26,26 @@ const sessionMiddleware = session({
 const app = express();
 connect();
 
+app.use(
+	cors({
+		origin: true,
+		credentials: true
+	})
+);
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(cookieSecret));
 app.use(sessionMiddleware);
 app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
+passportConfig();
+
+const apiLogic = require('./routes/index');
+
+app.use('/api', apiLogic);
 
 const server = app.listen(8000, () => {
 	console.log('8000번 포트에서 대기 중');

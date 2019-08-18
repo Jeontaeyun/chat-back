@@ -1,8 +1,11 @@
+// Mongoose를 통해 MongoDB를 생성하고 mognoose를 연결해주는 모듈
+
 const mongoose = require('mongoose');
 
 const { MONGO_ID, MONGO_PASSWORD, NODE_ENV } = process.env;
 
 const MONGO_URL = `mongodb://${MONGO_ID}:${MONGO_PASSWORD}@localhost:27017/admin`;
+
 module.exports = () => {
 	//MongoDB 연결하는 connect 함수 선언
 	const connect = () => {

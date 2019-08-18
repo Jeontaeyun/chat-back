@@ -42,6 +42,7 @@ module.exports = (server, app, sessionMiddleware) => {
 		socket.on('send', (data) => {
 			socket.to(roomId).emit('chat', data);
 			socket.emit('chat', data);
+			console.log(socket.request.session);
 		});
 		socket.on('disconnect', async () => {
 			console.log('chat 네임스페이스 접속 해제');

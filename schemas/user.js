@@ -1,25 +1,29 @@
 const mongoose = require('mongoose');
 
-const {Schema} = mongoose;
+const { Schema } = mongoose;
 
-// 스키마 생성자 
+// 스키마 생성자
 const userShema = new Schema({
-    userId: {
-        type: String,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    nickname: {
-        type: String,
-        required: true
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
+	userId: {
+		type: String,
+		required: true
+	},
+	password: {
+		type: String,
+		required: true
+	},
+	nickname: {
+		type: String,
+		required: true
+	},
+	job: {
+		type: String,
+		required: true
+	},
+	createdAt: {
+		type: Date,
+		default: Date.now
+	}
 });
 
 module.exports = mongoose.model('User', userShema);
