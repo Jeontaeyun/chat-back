@@ -13,4 +13,5 @@ router.get('/room/:id/chat', (req, res, next) => {});
 router.post('/room/:id/chat', (req, res, next) => {});
 router.post('/user', (req, res, next) => userCtrl.signupUser(req, res, next));
 router.post('/login', (req, res, next) => userCtrl.loginUser(req, res, next));
+router.post('/logout', (req, res, next) => userCtrl.logoutUser(req, res, next));
 module.exports = router;

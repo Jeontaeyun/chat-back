@@ -48,9 +48,16 @@ exports.loginUser = async (req, res, next) => {
 			if (loginErr) {
 				return next(loginErr);
 			}
-			delete user.userPassword;
-			console.log(user);
-			return res.json(user);
+			const [ filterUser ] = user;
+			delete filterUser.password;
+			console.log(filterUser.password);
+			return res.json(filterUser);
 		});
 	})(req, res, next);
+};
+
+exports.logoutUser = (req, res, next) => {
+	req.logout();
+	req.session.destroy();
+	return res.status(200).send('ok');
 };

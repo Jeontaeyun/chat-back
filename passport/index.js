@@ -6,7 +6,6 @@ module.exports = () => {
 	passport.serializeUser((user, done) => {
 		// Server Side로 [{id:3, cookie: 'adf'}] 세션을 남긴다.
 		const [ filterUser ] = user;
-		console.log(filterUser);
 		return done(null, filterUser._id);
 	});
 	passport.deserializeUser(async (_id, done) => {
