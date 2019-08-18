@@ -4,33 +4,31 @@ const Chat = require('../schemas/chat');
 exports.renderRooms = async (req, res, next) => {
 	try {
 		const rooms = await Room.find({});
-		res.render('main', { rooms, title: 'GIF 채팅방', error: req.flash('roomError') });
+
+		res.status(200).send(rooms);
 	} catch (e) {
 		console.error(e);
 		next(e);
 	}
 };
 
-exports.renderRoomTitle = (req, res) => {
-	res.render('room', { title: 'GIF 채팅방 생성' });
-};
-
 exports.createRoom = async (req, res, next) => {
 	try {
-		const room = new Room({
-			title: req.body.title,
-			max: req.body.max,
-			owner: req.session,
-			password: req.body.password
-		});
-		const newRoom = await room.save();
-		// 아래의 코드를 통해서 socket.io의 io객체를 사용할 수 있다.
-		const io = req.app.get('io');
-		// /room 네임 스페이스에 newRoom 이벤트를 전달하는 코드.
-		io.of('/room').emit('newRoom', newRoom);
-		// 방 주소에 room_id와 passwor가 같이 있는 것은 보안상 위험하지 않을까?
-		// 다른 방식으로 구성하도록 나중에 수정하자.
-		res.redirect(`/room/${newRoom._id}?password=${req.body.password}`);
+		// const room = new Room({
+		// 	title: req.body.title,
+		// 	max: req.body.max,
+		// 	owner: req.body.owner,
+		// 	password: req.body.password
+		// });
+		// const newRoom = await room.save();
+		// // 아래의 코드를 통해서 socket.io의 io객체를 사용할 수 있다.
+		// const io = req.app.get('io');
+		// // /room 네임 스페이스에 newRoom 이벤트를 전달하는 코드.
+		// io.of('/room').emit('newRoom', newRoom);
+		// // 방 주소에 room_id와 passwor가 같이 있는 것은 보안상 위험하지 않을까?
+		// // 다른 방식으로 구성하도록 나중에 수정하자.
+		res.header('Access-Control-Allow-Origin', '*');
+		res.redirect(`/`);
 	} catch (e) {
 		console.log(e);
 		next(e);

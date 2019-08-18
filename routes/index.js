@@ -4,9 +4,8 @@ const roomCtrl = require('./room.ctrl');
 const userCtrl = require('./user.ctrl');
 const router = express.Router();
 
-router.get('/', (req, res, next) => {});
-router.get('/room', (req, res, next) => {});
-router.post('/room', (req, res, next) => {});
+router.get('/room', (req, res, next) => roomCtrl.renderRooms(req, res, next));
+router.post('/room', (req, res, next) => roomCtrl.createRoom(req, res, next));
 router.get('/room/:id', (req, res, next) => {});
 router.delete('/room/:id', (req, res, next) => {});
 router.get('/room/:id/chat', (req, res, next) => {});
