@@ -24,7 +24,6 @@ exports.signupUser = async (req, res, next) => {
 				const newUser = await user.save();
 				const filterUser = Object.assign({}, newUser.toJSON());
 				delete filterUser.password;
-				console.log(newUser);
 				return res.status(200).send(filterUser);
 			}
 		});
@@ -49,8 +48,6 @@ exports.loginUser = async (req, res, next) => {
 				return next(loginErr);
 			}
 			const [ filterUser ] = user;
-			delete filterUser.password;
-			console.log(filterUser.password);
 			return res.json(filterUser);
 		});
 	})(req, res, next);

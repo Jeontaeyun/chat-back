@@ -3,8 +3,7 @@ const Chat = require('../schemas/chat');
 
 exports.renderRooms = async (req, res, next) => {
 	try {
-		const rooms = await Room.find({});
-
+		const rooms = await Room.find({}).populate('owner', 'nickname');
 		res.status(200).send(rooms);
 	} catch (e) {
 		console.error(e);
@@ -14,21 +13,17 @@ exports.renderRooms = async (req, res, next) => {
 
 exports.createRoom = async (req, res, next) => {
 	try {
-		// const room = new Room({
-		// 	title: req.body.title,
-		// 	max: req.body.max,
-		// 	owner: req.body.owner,
-		// 	password: req.body.password
-		// });
-		// const newRoom = await room.save();
-		// // 아래의 코드를 통해서 socket.io의 io객체를 사용할 수 있다.
-		// const io = req.app.get('io');
-		// // /room 네임 스페이스에 newRoom 이벤트를 전달하는 코드.
-		// io.of('/room').emit('newRoom', newRoom);
-		// // 방 주소에 room_id와 passwor가 같이 있는 것은 보안상 위험하지 않을까?
-		// // 다른 방식으로 구성하도록 나중에 수정하자.
-		res.header('Access-Control-Allow-Origin', '*');
-		res.redirect(`/`);
+		const room = new Room({
+			title: req.body.title,
+			max: req.body.max,
+			owner: req.body.owner,
+			password: req.body.password
+		});
+		const newRoom = await room.save();
+		// 아래의 코드를 통해서 socket.io의 io객체를 사용할 수 있다.
+		const io = req.app.get('io');
+		// /room 네임 스페이스에 newRoom 이벤트를 전달하는 코드.
+		io.of('/room').emit('newRoom', newRoom);
 	} catch (e) {
 		console.log(e);
 		next(e);

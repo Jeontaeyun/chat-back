@@ -39,11 +39,7 @@ module.exports = (server, app, sessionMiddleware) => {
 			user: 'system',
 			chat: `${req.session}님이 입장하셨습니다.`
 		});
-		socket.on('send', (data) => {
-			socket.to(roomId).emit('chat', data);
-			socket.emit('chat', data);
-			console.log(socket.request.session);
-		});
+
 		socket.on('disconnect', async () => {
 			console.log('chat 네임스페이스 접속 해제');
 			socket.leave(roomId);
