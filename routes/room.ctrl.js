@@ -4,7 +4,16 @@ const Chat = require('../schemas/chat');
 exports.renderRooms = async (req, res, next) => {
 	try {
 		const rooms = await Room.find({}).populate('owner', 'nickname');
-		res.status(200).send(rooms);
+		const io = req.app.get('io');
+
+		const filteredRooms = rooms.map((item) => {
+			const roomInfo = io.of('/chat').adapter.rooms[item._id];
+			const numberUser = roomInfo ? roomInfo.length : 0;
+
+			return { ...item._doc, numberUser };
+		});
+
+		res.status(200).send(filteredRooms);
 	} catch (e) {
 		console.error(e);
 		next(e);
@@ -34,23 +43,25 @@ exports.renderRoom = async (req, res, next) => {
 	try {
 		const room = await Room.findOne({ _id: req.params.id });
 		const io = req.app.get('io');
-		if (!room) {
-			req.flash('roomError', '존재하지 않는 방입니다.');
-			return res.redirect('/');
-		}
-		if (room.password && room.password !== req.query.password) {
-			req.flash('roomError', '비밀번호가 틀렸습니다.');
-			return res.redirect('/');
-		}
-		const { rooms } = io.of('/chat').adapter;
-		if (rooms && rooms[req.params.id] && room.max <= rooms[req.params.id].length) {
-			req.flash('roomError', '허용 인원이 초과하였습니다.');
-			return res.redirect('/');
-		}
-		return res.render('chat', {
-			room,
+		const roomInfo = io.of('/chat').adapter.rooms[req.params.id];
+		// const io = req.app.get('io');
+		// if (!room) {
+		// 	req.flash('roomError', '존재하지 않는 방입니다.');
+		// 	return res.redirect('/');
+		// }
+		// if (room.password && room.password !== req.query.password) {
+		// 	req.flash('roomError', '비밀번호가 틀렸습니다.');
+		// 	return res.redirect('/');
+		// }
+		// const { rooms } = io.of('/chat').adapter;
+		// if (rooms && rooms[req.params.id] && room.max <= rooms[req.params.id].length) {
+		// 	req.flash('roomError', '허용 인원이 초과하였습니다.');
+		// 	return res.redirect('/');
+		// }
+		return res.status(200).send({
 			title: room.title,
-			user: req.session
+			numberUser: roomInfo,
+			password: room.password
 		});
 	} catch (e) {
 		console.error(e);
