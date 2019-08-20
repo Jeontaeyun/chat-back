@@ -33,6 +33,7 @@ exports.createRoom = async (req, res, next) => {
 		const io = req.app.get('io');
 		// /room 네임 스페이스에 newRoom 이벤트를 전달하는 코드.
 		io.of('/room').emit('newRoom', newRoom);
+		res.status(200).send(room._id);
 	} catch (e) {
 		console.log(e);
 		next(e);
@@ -71,6 +72,7 @@ exports.renderRoom = async (req, res, next) => {
 
 exports.deleteRoom = async (req, res, next) => {
 	try {
+		console.log('hi');
 		await Room.remove({ _id: req.params.id });
 		await Chat.remove({ room: req.params.id });
 		res.send('ok');

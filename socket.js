@@ -45,28 +45,29 @@ module.exports = (server, app, sessionMiddleware) => {
 
 		socket.on('disconnect', async () => {
 			console.log(`chat 네임스페이스 ${roomId} 접속 해제`);
-			socket.leave(room);
-			console.log(roomId);
+			socket.leave(roomId);
+			//새로고침하는 유저를 위해 잠깐 시간 제한을 걸어준다.
+			setTimeout(async ()=> {
+				const currentRoom = socket.adapter.rooms[roomId];
+			const userCount = currentRoom ? currentRoom.length : 0;
+			if (userCount === 0) {
+				try {
+					await axios.delete(`http://localhost:8000/api/room/${roomId}`);
+					console.log('방 제거 요청 성공');
+				} catch (e) {
+					console.error(e);
+				}
+			} else {
+				socket.to(roomId).emit('exit', {
+					user: 'system',
+					chat: `${req.session}님이 퇴장하셨습니다.`
+				});
+			}
+			},500);
 			// 접속 해제 시 현재 방의 사람 수를 구해서 참여자 수가 0이면 방을 제거하는 HTTP 요청을 보내야 한다.
 			// socket.adapter.rooms[방 아이디]에 참여 중인 소켓 정보가 있습니다.
 			// Room은 위의 room 네임스페이스가 아니라 socket.io의 룸이라는 개념이다.
-
-			console.log(socket.adapter.rooms[roomId]);
-			// const currentRoom = socket.adapter.rooms[roomId];
-			// const userCount = currentRoom ? currentRoom.length : 0;
-			// if (userCount === 0) {
-			// 	try {
-			// 		await axios.delete(`http://localhost:8005/room/${roomId}`);
-			// 		console.log('방 제거 요청 성공');
-			// 	} catch (e) {
-			// 		console.error(e);
-			// 	}
-			// } else {
-			// 	socket.to(roomId).emit('exit', {
-			// 		user: 'system',
-			// 		chat: `${req.session}님이 퇴장하셨습니다.`
-			// 	});
-			// }
+			
 		});
 	});
 };
