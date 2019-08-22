@@ -3,7 +3,7 @@ const Chat = require('../schemas/chat');
 
 exports.renderRooms = async (req, res, next) => {
 	try {
-		const rooms = await Room.find({}).populate('owner', 'nickname');
+		const rooms = await Room.find({}).populate('owner', 'nickname profile');
 		const io = req.app.get('io');
 
 		const filteredRooms = rooms.map((item) => {
@@ -72,7 +72,6 @@ exports.renderRoom = async (req, res, next) => {
 
 exports.deleteRoom = async (req, res, next) => {
 	try {
-		console.log('hi');
 		await Room.remove({ _id: req.params.id });
 		await Chat.remove({ room: req.params.id });
 		res.send('ok');

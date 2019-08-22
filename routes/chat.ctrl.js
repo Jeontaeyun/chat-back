@@ -15,7 +15,7 @@ exports.createChat = async (req, res, next) => {
 			.get('io')
 			.of('/chat')
 			.to(room)
-			.emit('chat', { chat: chat.chat, user: { _id: user._id, nickname: user.nickname } });
+			.emit('chat', { chat: chat.chat, user: { _id: user._id, nickname: user.nickname, profile: user.profile } });
 		res.send('ok');
 	} catch (e) {
 		console.error(e);
@@ -26,7 +26,7 @@ exports.renderChat = async (req, res, next) => {
 	try {
 		const chats = await Chat.find({ room: req.params.id })
 			.sort('createdAt')
-			.populate('user', 'nickname _id')
+			.populate('user', 'nickname _id profile')
 			.exec();
 		return res.status(200).send(chats);
 	} catch (e) {

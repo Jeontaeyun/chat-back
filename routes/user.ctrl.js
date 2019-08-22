@@ -19,7 +19,8 @@ exports.signupUser = async (req, res, next) => {
 					userId: req.body.userId,
 					password: hash,
 					nickname: req.body.userNickname,
-					job: req.body.userJob
+					job: req.body.userJob,
+					profile: req.body.userProfile
 				});
 				const newUser = await user.save();
 				const filterUser = Object.assign({}, newUser.toJSON());
