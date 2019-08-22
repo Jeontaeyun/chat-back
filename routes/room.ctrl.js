@@ -30,10 +30,6 @@ exports.createRoom = async (req, res, next) => {
 		});
 		const newRoom = await room.save();
 		// 아래의 코드를 통해서 socket.io의 io객체를 사용할 수 있다.
-		const io = req.app.get('io');
-		// /room 네임 스페이스에 newRoom 이벤트를 전달하는 코드.
-		io.of('/room').emit('newRoom', newRoom);
-		res.status(200).send(room._id);
 	} catch (e) {
 		console.log(e);
 		next(e);

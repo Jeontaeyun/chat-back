@@ -12,18 +12,10 @@ module.exports = (server, app, sessionMiddleware) => {
 	// Socekt.io에 네임스페이스를 부여하는 메서드 of
 	// Socket.io는 기본적으로 / 네임스페이스에 접속하지만 of 메소드를 사용하면 다른 네임스페이스를 만들어 접속 가능
 	// 같은 네임스페이스 끼리만 데이터를 전달
-	const room = io.of('/room');
 	const chat = io.of('/chat');
 
 	io.use((socket, next) => {
 		sessionMiddleware(socket.request, socket.request.res, next);
-	});
-	// romm 네임스페이스에 이벤트 리스너를 붙여주는 것. 네임 스페이스마다 각각 이벤트 리스너를 붙여줄 수 있습니다.
-	room.on('connection', (socket) => {
-		console.log('room 네임스페이스에 접속');
-		socket.on('disconnect', () => {
-			console.log('room 네임스페이스 접속 해제');
-		});
 	});
 
 	// chat 네임스페이스에 이벤트 리스너를 붙여주는 것. 네임 스페이스마다 각각 이벤트 리스너를 붙여줄 수 있습니다.

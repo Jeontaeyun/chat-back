@@ -26,7 +26,7 @@ exports.renderChat = async (req, res, next) => {
 	try {
 		const chats = await Chat.find({ room: req.params.id })
 			.sort('createdAt')
-			.populate('user', 'nickname _id profile')
+			.populate('user', 'nickname _id profile') //populate를 통해 MongoDB에서 외래키 역할을 할 수 있다.
 			.exec();
 		return res.status(200).send(chats);
 	} catch (e) {
