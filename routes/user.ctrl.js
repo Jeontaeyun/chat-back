@@ -19,12 +19,12 @@ exports.signupUser = async (req, res, next) => {
 					userId: req.body.userId,
 					password: hash,
 					nickname: req.body.userNickname,
-					job: req.body.userJob
+					job: req.body.userJob,
+					profile: req.body.userProfile
 				});
 				const newUser = await user.save();
 				const filterUser = Object.assign({}, newUser.toJSON());
 				delete filterUser.password;
-				console.log(newUser);
 				return res.status(200).send(filterUser);
 			}
 		});
@@ -49,8 +49,6 @@ exports.loginUser = async (req, res, next) => {
 				return next(loginErr);
 			}
 			const [ filterUser ] = user;
-			delete filterUser.password;
-			console.log(filterUser.password);
 			return res.json(filterUser);
 		});
 	})(req, res, next);

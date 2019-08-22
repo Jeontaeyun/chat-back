@@ -16,6 +16,9 @@ const userShema = new Schema({
 		type: String,
 		required: true
 	},
+	profile: {
+		type: String
+	},
 	job: {
 		type: String,
 		required: true
