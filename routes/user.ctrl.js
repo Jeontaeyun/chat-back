@@ -48,8 +48,10 @@ exports.loginUser = async (req, res, next) => {
 			if (loginErr) {
 				return next(loginErr);
 			}
-			const [ filterUser ] = user;
-			return res.json(filterUser);
+			const [ filterUser ] = user; // 얕은 복사로 인해 참조가 변하지 않는 듯하다.
+			const filterUserShallow = Object.assign({}, filterUser);
+			delete filterUserShallow._doc.password; // 비밀번호를 제거해서 보안을 높여야한다.
+			return res.json(filterUser._doc);
 		});
 	})(req, res, next);
 };
