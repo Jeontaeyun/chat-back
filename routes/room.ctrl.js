@@ -29,6 +29,7 @@ exports.createRoom = async (req, res, next) => {
 			password: req.body.password
 		});
 		const newRoom = await room.save();
+		return res.status(200).send(newRoom._id);
 		// 아래의 코드를 통해서 socket.io의 io객체를 사용할 수 있다.
 	} catch (e) {
 		console.log(e);
