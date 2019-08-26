@@ -1,7 +1,10 @@
 {
     "watch" : [
-        "./*"
+        "./passport",
+        "./routes",
+        "./index.js"
     ],
+    "ignore" : "./sessions",
     "exec" : "node index.js",
     "ext" : "js json jsx"
 }

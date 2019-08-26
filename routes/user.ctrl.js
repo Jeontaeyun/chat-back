@@ -44,14 +44,14 @@ exports.loginUser = async (req, res, next) => {
 			console.log(info);
 			return res.status(401).send(info.reason);
 		}
-		return req.login(user, (loginErr) => {
+		req.login(user, (loginErr) => {
 			if (loginErr) {
 				return next(loginErr);
 			}
-			const [ filterUser ] = user; // 얕은 복사로 인해 참조가 변하지 않는 듯하다.
-			const filterUserShallow = Object.assign({}, filterUser);
-			delete filterUserShallow._doc.password; // 비밀번호를 제거해서 보안을 높여야한다.
-			return res.json(filterUser._doc);
+			//user.toJSON()을 통해서 객체를 JSON데이터 형태로 바꿔줌
+			const filteredUser = Object.assign({}, user.toJSON());
+			delete filteredUser.password;
+			return res.json(filteredUser);
 		});
 	})(req, res, next);
 };

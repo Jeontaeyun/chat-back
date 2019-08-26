@@ -54,7 +54,7 @@ module.exports = (server, app, sessionMiddleware) => {
 						chat: `${req.session}님이 퇴장하셨습니다.`
 					});
 				}
-			}, 500);
+			}, 900);
 			// 접속 해제 시 현재 방의 사람 수를 구해서 참여자 수가 0이면 방을 제거하는 HTTP 요청을 보내야 한다.
 			// socket.adapter.rooms[방 아이디]에 참여 중인 소켓 정보가 있습니다.
 			// Room은 위의 room 네임스페이스가 아니라 socket.io의 룸이라는 개념이다.

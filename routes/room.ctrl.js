@@ -5,14 +5,11 @@ exports.renderRooms = async (req, res, next) => {
 	try {
 		const rooms = await Room.find({}).populate('owner', 'nickname profile');
 		const io = req.app.get('io');
-
 		const filteredRooms = rooms.map((item) => {
 			const roomInfo = io.of('/chat').adapter.rooms[item._id];
 			const numberUser = roomInfo ? roomInfo.length : 0;
-
 			return { ...item._doc, numberUser };
 		});
-
 		res.status(200).send(filteredRooms);
 	} catch (e) {
 		console.error(e);
@@ -39,6 +36,7 @@ exports.createRoom = async (req, res, next) => {
 
 exports.renderRoom = async (req, res, next) => {
 	try {
+		console.log(req.user);
 		const room = await Room.findOne({ _id: req.params.id });
 		const io = req.app.get('io');
 		const roomInfo = io.of('/chat').adapter.rooms[req.params.id];
