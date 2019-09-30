@@ -1,29 +1,29 @@
 const mongoose = require('mongoose');
 
-const {Schema} = mongoose;
-const {Types: {ObjectId}} = Schema;
-// 스키마 생성자 
+const { Schema } = mongoose;
+const { Types: { ObjectId } } = Schema;
+// 스키마 생성자
 const roomShema = new Schema({
-    title: {
-        type: String,
-        required: true
-    },
-    max: {
-        type: Number,
-        required: true,
-        defaultValue: 10,
-        min: 2
-    },
-    owner: {
-        type: ObjectId,
-        required: true,
-        ref: 'User'
-    },
-    password: String,
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
+	title: {
+		type: String,
+		required: true
+	},
+	max: {
+		type: Number,
+		required: true,
+		defaultValue: 10,
+		min: 2
+	},
+	owner: {
+		type: ObjectId,
+		required: true,
+		ref: 'User'
+	},
+	password: String,
+	createdAt: {
+		type: Date,
+		default: Date.now
+	}
 });
 
 module.exports = mongoose.model('Room', roomShema);

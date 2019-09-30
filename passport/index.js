@@ -1,4 +1,3 @@
-
 const User = require('../schemas/user');
 const local = require('./local');
 
@@ -9,8 +8,9 @@ module.exports = (passport) => {
 	});
 	passport.deserializeUser(async (id, done) => {
 		try {
-			const user = await User.findOne({ _id : id }, { password: false });
-			return done(null, user); // req.user로 Request문에 데이터를 넣어준다.
+			const user = await User.findOne({ _id: id }, { password: false });
+			return done(null, user);
+			// req.user로 Request문에 데이터를 넣어준다.
 		} catch (e) {
 			console.error(e);
 			return done(e);

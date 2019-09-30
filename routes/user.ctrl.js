@@ -4,13 +4,12 @@ const passport = require('passport');
 
 exports.signupUser = async (req, res, next) => {
 	try {
-		// 이미 사용자가 있는지 확인하는 로직
-		const exUser = await User.find({ userId: req.body.userId });
+		const exUser = await User.find({
+			userId: req.body.userId
+		});
 		if (exUser.length !== 0) {
 			return res.status(403).send('이미 사용 중인 아이디입니다.');
 		}
-		// Bcrypt를 이용한 회원 가입 암호 비밀화
-
 		bcrypt.hash(req.body.userPassword, null, null, async (err, hash) => {
 			if (err) {
 				console.log('bcrypt.genSalt() Error: ', err.message);
@@ -23,9 +22,9 @@ exports.signupUser = async (req, res, next) => {
 					profile: req.body.userProfile
 				});
 				const newUser = await user.save();
-				const filterUser = Object.assign({}, newUser.toJSON());
-				delete filterUser.password;
-				return res.status(200).send(filterUser);
+				const filteredUser = Object.assign({}, newUser.toJSON());
+				delete filteredUser.password;
+				return res.status(200).send(filteredUser);
 			}
 		});
 	} catch (e) {

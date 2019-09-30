@@ -36,8 +36,9 @@ exports.createRoom = async (req, res, next) => {
 
 exports.renderRoom = async (req, res, next) => {
 	try {
-		console.log(req.user);
-		const room = await Room.findOne({ _id: req.params.id });
+		const room = await Room.findOne({
+			_id: req.params.id
+		});
 		const io = req.app.get('io');
 		const roomInfo = io.of('/chat').adapter.rooms[req.params.id];
 		// const io = req.app.get('io');
@@ -67,8 +68,12 @@ exports.renderRoom = async (req, res, next) => {
 
 exports.deleteRoom = async (req, res, next) => {
 	try {
-		await Room.remove({ _id: req.params.id });
-		await Chat.remove({ room: req.params.id });
+		await Room.remove({
+			_id: req.params.id
+		});
+		await Chat.remove({
+			room: req.params.id
+		});
 		res.send('ok');
 		setTimeout(() => {
 			req.app.get('io').of('./room').emit('removeRoom', req.params.id);

@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-// 스키마 생성자
 const userShema = new Schema({
 	userId: {
 		type: String,
@@ -30,5 +29,3 @@ const userShema = new Schema({
 });
 
 module.exports = mongoose.model('User', userShema);
-// mongoose.model('스키마이름', 스키마객체)
-// 데이터베이스에서는 복수형 rooms로 컬렉션이름을 만든다.
